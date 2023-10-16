@@ -4,7 +4,6 @@
 from rich.console import Console as console
 from rich.syntax import Syntax as syntax
 from rich import print as rprint
-from configparser import ConfigParser as config
 from argparse import ArgumentParser as arg
 
 
@@ -168,7 +167,7 @@ def ainputf(str: str, end='', ccolor=ascii.color.purple):
     return input()
 
 def askinput(str: str, inputter=ainputf, ccolor=ascii.color.blue):
-    inputter(f"{ccolor}[?] {str}{ascii.color.reset}")
+    return inputter(f"{ccolor}[?] {str}{ascii.color.reset}")
 
 # animated countdown from @timeoutsec
 def countdown(timeoutsec: int):

@@ -1,9 +1,6 @@
 #!/dev/null
 
 # imports
-from rich.console import Console as console
-from rich.syntax import Syntax as syntax
-from rich import print as rprint
 from argparse import ArgumentParser as arg
 
 

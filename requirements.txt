@@ -1,2 +1,1 @@
-rich==13.6.0
 simple_term_menu==1.6.1

@@ -32,7 +32,7 @@ try:
     try:
         skip_ask = bool(skip_ask)
     except ValueError:
-        raise ValueError("Invalid detailed_date")
+        raise ValueError("Invalid skip asking option")
 except NoSectionError:
     raise NoSectionError(f"Section global not found in {expanduser('~')}/.config/jlog/jlog.conf")
 except NoOptionError:
@@ -63,12 +63,12 @@ if not skip_ask:
             printwarning("Reseting...")
             from os import execv
             from sys import executable
-            execv(executable, ['python3'] + argv)
+            execv(executable, [executable] + argv)
     except AttributeError:
         printwarning("Reseting...")
         from os import execv
         from sys import executable
-        execv(executable, ['python3'] + argv)
+        execv(executable, [executable] + argv)
 
 
 def convert_PRIORITY(priority) -> str:
@@ -111,7 +111,6 @@ def main():
     priority = askinput("Priority of log messages: ")
 
     # check if priority is valid
-    
     message = askinput("Message to log: ")
 
     log = log_message(priority, message)

@@ -36,7 +36,7 @@ try:
 except NoSectionError:
     raise NoSectionError(f"Section global not found in {expanduser('~')}/.config/jlog/jlog.conf")
 except NoOptionError:
-    printerror("Option date/skip_ask not found in {expanduser('~')}/.config/jlog/jlog.conf")
+    printerror(f"Option skip_ask not found in {expanduser('~')}/.config/jlog/jlog.conf")
     skip_ask = False
 try:
     ddate = config.get('global', 'detailed_date')

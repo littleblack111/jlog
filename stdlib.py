@@ -222,6 +222,24 @@ def bgexec(func, arg=False, stop=False):
 		else:
 			t = Thread(target=func).start()
 
+
+# to give a absolutly perfect path to the location of a file or self(directory)
+def rpath(file: str=None) -> str:
+	from os import path
+	if file:
+		if path.islink(file):
+			from os import readlink
+			file = readlink(file)
+		return f'{path.dirname(path.abspath(__file__))}/{file}'
+	else:
+		return path.dirname(path.abspath(__file__))
+
+# run another python file(utils)
+def runutil(file: str, *arg) -> any:
+	from sys import executable
+	from os import execv
+	execv(executable, ['python3', f'{rpath()}/{file}'] + list(arg))
+
 # TODO: fix this "TypeError: Please input @sig as a int(signal number, like 15) or str(signal name, like SIGTERM", tried signal.SIGINT, or str(signal name, like SIGTERM)
 # catch & handle signals
 def sigcatch(sig, error=None, sysexit=False, handler=None):

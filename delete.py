@@ -68,28 +68,9 @@ if not skip_ask:
         from sys import executable
         execv(executable, [executable] + argv)
 
-
-def convert_PRIORITY(priority) -> str:
-    try:
-        priority = int(priority)
-        if priority == 1:
-            priority = "DEBUG"
-        elif priority == 2:
-            priority = "INFO"
-        elif priority == 3:
-            priority = "WARNING"
-        elif priority == 4:
-            priority = "ERROR"
-        elif priority == 5:
-            priority = "CRITICAL"
-        elif priority == 6:
-            priority = "FATAL"
-    except ValueError:
-        priority = priority.upper()
-        if priority not in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]:
-            raise ValueError("Invalid priority")
+def remove_line(line: int):
     
-    return priority
+    
 
 
 # main function(process)
@@ -100,7 +81,6 @@ def log_message(priority: int, message: str):
         return f"[{current_date.date()} {current_date.strftime('%A')} {current_date.hour:02d}:{current_date.minute:02d}] [{priority}]: {message}"
     elif ddate:
         return f"[{current_date}] [{priority}]: {message}"
-
 
 
 # main function(ui)
@@ -121,6 +101,8 @@ elif len(argv) in [2, 3, 4]:
 else:
     exit(1)
 
-
 printinfo(f"Logging into file {log_file}")
 open(log_file, 'a').write(log + '\n')
+
+# to delete last line:
+open(log_file, 'w').writelines(open(log_file, 'r').readlines()[-1])

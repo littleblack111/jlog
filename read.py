@@ -4,13 +4,12 @@ from stdlib import *
 from datetime import datetime
 from configparser import ConfigParser as config
 from configparser import NoOptionError, NoSectionError
-from os import path
+from os.path import expanduser, isfile
 
-
-expanduser = path.expanduser
+expanduser = expanduser
 
 # function to get config
-if not path.isfile(f"{expanduser('~')}/.config/jlog/jlog.conf"):
+if not isfile(f"{expanduser('~')}/.config/jlog/jlog.conf"):
     raise FileNotFoundError(f"Config {expanduser('~')}/.config/jlog/jlog.conf not found")
 else:
     printinfo(f"Using config file {expanduser('~')}/.config/jlog/jlog.conf")
@@ -22,7 +21,7 @@ except NoSectionError:
     raise NoSectionError(f"Section global not found in {expanduser('~')}/.config/jlog/jlog.conf")
 except NoOptionError:
     log_file = f"{expanduser('~')}/.config/jlog/jlog_{datetime.now()}"
-if not path.isfile(log_file):
+if not isfile(log_file):
     printerror(f"Log file {log_file} not found")
     raise FileNotFoundError(f"Log file {log_file} not found")
 else:
@@ -31,12 +30,12 @@ else:
 def colorize(log: str) -> str:
     lines = log.splitlines()
     for i in range(len(lines)):
-        lines[i] = lines[i].replace('DEBUG', f"{ascii.color.lcyan}DEBUG{ascii.color.reset}")
-        lines[i] = lines[i].replace('INFO', f"{ascii.color.green}INFO{ascii.color.reset}")
-        lines[i] = lines[i].replace('WARNING', f"{ascii.color.yellow}WARNING{ascii.color.reset}")
-        lines[i] = lines[i].replace('ERROR', f"{ascii.color.lred}ERROR{ascii.color.reset}")
-        lines[i] = lines[i].replace('CRITICAL', f"{ascii.color.red}CRITICAL{ascii.color.reset}")
-        lines[i] = lines[i].replace('FATAL', f"{ascii.color.red}FATAL{ascii.color.reset}")
+        lines[i] = lines[i].replace('DEBUG', f"{ascii.color.lcyan}DEBUG{ascii.color.reset}", 1)
+        lines[i] = lines[i].replace('INFO', f"{ascii.color.green}INFO{ascii.color.reset}", 1)
+        lines[i] = lines[i].replace('WARNING', f"{ascii.color.yellow}WARNING{ascii.color.reset}", 1)
+        lines[i] = lines[i].replace('ERROR', f"{ascii.color.lred}ERROR{ascii.color.reset}", 1)
+        lines[i] = lines[i].replace('CRITICAL', f"{ascii.color.red}CRITICAL{ascii.color.reset}", 1)
+        lines[i] = lines[i].replace('FATAL', f"{ascii.color.red}FATAL{ascii.color.reset}", 1)
 
     return '\n'.join(lines)
 

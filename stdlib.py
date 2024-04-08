@@ -1,8 +1,5 @@
 #!/dev/null
 
-# imports
-from argparse import ArgumentParser as arg
-
 # text ascii codes
 class ascii:
 	### ASCII
@@ -149,7 +146,7 @@ def aprintf(*value: str, interval=0.01, end=None):
 		printf(i)
 		if ani:
 			sleep(interval)
-	if end == None:
+	if end is None:
 		printf(f'{ascii.color.reset}\n')
 	else:
 		printf(end)
@@ -171,10 +168,22 @@ def printerror(str: str, outputter=aprintf, ccolor=ascii.color.red, end=None):
 
 def ainputf(str: str, end='', ccolor=ascii.color.purple):
 	aprintf(str, end=end)
+	import readline
 	return input()
+
+def input(*arg):
+	import readline
+	from builtins import input
+	return input(*arg)
 
 def askinput(str: str, inputter=ainputf, ccolor=ascii.color.blue):
 	return inputter(f"{ccolor}[?] {str}{ascii.color.reset}")
+
+def keepasks(info: str, inputter=ainputf, *inputargs):
+	tmprespond = ""
+	while tmprespond == "" or tmprespond == " " or tmprespond is None or not tmprespond:
+		tmprespond = inputter(info, *inputargs)
+	return tmprespond
 
 # animated countdown from @timeoutsec
 def countdown(timeoutsec: int):
@@ -188,12 +197,6 @@ def countdown(timeoutsec: int):
 		timeoutsec -= 1
 		sleep(0.2)
 	print(1)
-
-def keepasks(info: str, inputter=ainputf, *inputargs):
-	tmprespond = ""
-	while tmprespond == "" or tmprespond == " " or tmprespond is None:
-		tmprespond = inputter(info, *inputargs)
-	return tmprespond
 
 # TODO: make aloading() in threading
 # animated loading with @msg
@@ -222,7 +225,6 @@ def bgexec(func, arg=False, stop=False):
 		else:
 			t = Thread(target=func).start()
 
-
 # to give a absolutly perfect path to the location of a file or self(directory)
 def rpath(file: str=None) -> str:
 	from os import path
@@ -244,19 +246,19 @@ def runutil(file: str, *arg) -> any:
 # catch & handle signals
 def sigcatch(sig, error=None, sysexit=False, handler=None):
 	from signal import signal
-	if handler != None:
+	if handler is not None:
 		pass
-	elif error == None:
+	elif error is None:
 		def handler(sig, stack):
 			printerror(f"catched kill signal: {sig}")
 			if sysexit:
-				import sys.exit
-				sys.exit(sig)
+				from sys import exit as sysexit
+				sysexit(sig)
 	elif error:
 		def handler(sig, stack):
 			printerror(error)
 			if sysexit:
-				sys.exit(sig)
+				sysexit(sig)
 	if sig == str:
 		from signal import sig
 		signal(signal.sig, handler)
